@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Webhook üzenet küldése (by ilovemilk155)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #666666;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 120px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Discord Webhook üzenet küldés (by ilovemilk155)</h1>
+        <form id="messageForm">
+            <label for="webhookUrl">Discord Webhook URL:</label><br>
+            <input type="text" id="webhookUrl" name="webhookUrl"><br>
+            <label for="message">Üzenet:</label><br>
+            <textarea id="message" name="message"></textarea><br>
+            <button type="submit">Üzenet küldése</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("messageForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var webhookUrl = document.getElementById("webhookUrl").value;
+            var message = document.getElementById("message").value;
+            sendMessage(webhookUrl, message);
+        });
+
+        function sendMessage(webhookUrl, message) {
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    content: message
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('A hálózati válasz nem volt megfelelő');
+                }
+                alert("Üzenet sikeresen elküldve!");
+            })
+            .catch(error => {
+                console.error('Probléma lépett fel a lekérési művelettel:', error);
+                alert("Nem sikerült elküldeni az üzenetet. A részletekért ellenőrizze a konzolt.");
+            });
+        }
+    </script>
+</body>
+</html>
